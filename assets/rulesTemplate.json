@@ -94,7 +94,7 @@
             "behavior": "REGEX_REPLACE",
             "matchMultiple": false,
             "keepQueryString": true,
-            "matchRegex": "\\/__integration_path__[\\/]?(.*)",
+            "matchRegex": "\\/__integration_path_escaped__[\\/]?(.*)",
             "targetRegex": "/$1"
           }
         }
@@ -525,7 +525,7 @@
                 "behavior": "REGEX_REPLACE",
                 "matchMultiple": false,
                 "keepQueryString": true,
-                "matchRegex": "\\/__integration_path__\\/__result_path__(.*)",
+                "matchRegex": "\\/__integration_path_escaped__\\/__result_path__(.*)",
                 "targetRegex": "$1"
               }
             }

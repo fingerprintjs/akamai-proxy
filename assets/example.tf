@@ -25,7 +25,7 @@ resource "random_string" "fpjs_result_path" {
 variable "fpjs_integration_path" {
   type = string
   validation {
-    condition = can(regex("(^$|^[a-zA-Z0-9-]+$)", var.fpjs_integration_path))
+    condition = can(regex("(^$|^[a-zA-Z0-9/-]+$)", var.fpjs_integration_path))
     error_message = "Variable value must be a valid URL path"
   }
 }
@@ -58,6 +58,7 @@ locals {
   fpjs_integration_path = var.fpjs_integration_path != "" ? var.fpjs_integration_path : random_string.fpjs_integration_path.result
   fpjs_agent_path = var.fpjs_agent_path != "" ? var.fpjs_agent_path : random_string.fpjs_agent_path.result
   fpjs_result_path = var.fpjs_result_path != "" ? var.fpjs_result_path : random_string.fpjs_result_path.result
+  fpjs_integration_path_escaped = replace(var.fpjs_integration_path, "/", "\\\\/")
 }
 
 data "akamai_property_rules_template" "rules" {
@@ -65,6 +66,11 @@ data "akamai_property_rules_template" "rules" {
   variables {
     name  = "fpjs_integration_path"
     value = local.fpjs_integration_path
+    type = "string"
+  }
+  variables {
+    name = "fpjs_integration_path_escaped"
+    value = local.fpjs_integration_path_escaped
     type = "string"
   }
   variables {
