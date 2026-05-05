@@ -58,7 +58,7 @@ locals {
   fpjs_integration_path = var.fpjs_integration_path != "" ? var.fpjs_integration_path : random_string.fpjs_integration_path.result
   fpjs_agent_path = var.fpjs_agent_path != "" ? var.fpjs_agent_path : random_string.fpjs_agent_path.result
   fpjs_result_path = var.fpjs_result_path != "" ? var.fpjs_result_path : random_string.fpjs_result_path.result
-  fpjs_integration_path_escaped = replace(var.fpjs_integration_path, "/", "\\\\/")
+  fpjs_integration_path_escaped = replace(replace(var.fpjs_integration_path, "/", "\\\\/"), ".", "\\.")
 }
 
 data "akamai_property_rules_template" "rules" {
