@@ -28,6 +28,10 @@ export default function generatePatchBody({
 
   let bodyString = JSON.stringify(body, null, 2)
   bodyString = bodyString.replace(/__integration_path__/g, integrationPath)
+  bodyString = bodyString.replace(
+    /__integration_path_escaped__/g,
+    integrationPath?.replace('/', '\\\\/')?.replace('.', '\\.')
+  )
   bodyString = bodyString.replace(/__agent_path__/g, agentPath)
   bodyString = bodyString.replace(/__result_path__/g, resultPath)
   bodyString = bodyString.replace(/__proxy_secret__/g, proxySecret)
