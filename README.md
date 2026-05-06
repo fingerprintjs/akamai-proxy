@@ -48,6 +48,11 @@ This is a quick overview of the installation setup. For detailed step-by-step in
             type = "string"
           }
           variables {
+            name  = "fpjs_integration_path_escaped"
+            value = "YOUR_INTEGRATION_PATH_ESCAPED_HERE" # same as fpjs_integration_path but with / escaped as \\/ and . escaped as \.
+            type = "string"
+          }
+          variables {
             name  = "fpjs_proxy_secret"
             value = "YOUR_PROXY_SECRET_HERE" # Use the proxy secret from the previous step
             type = "string"
