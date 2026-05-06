@@ -1,3 +1,13 @@
+## 1.1.0-rc.1
+
+### Minor Changes
+
+- Add nested integration path support ([a139683](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/a139683cdc52d9d192ebfedc7ba59f07f0eccc5c))
+
+### Patch Changes
+
+- Improved internal request routing logic for region. ([a91093b](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/a91093b6d68b1a1c19b5e1e17c2da0db86c48ffa))
+
 ## 1.1.0-rc.0
 
 ### Minor Changes
