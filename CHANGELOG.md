@@ -1,3 +1,22 @@
+## 1.1.0
+
+This version introduces Fingerprint JS Agent APIv4 support on Akamai proxy integration.
+
+**Docs:**
+
+- Migration from APIv3 to APIv4 for Akamai proxy integration [Guide](https://docs.fingerprint.com/docs/akamai-v3-to-v4-migration-guide)
+- Migration from APIv3 to APIv4 for JS Agent [Guide](https://docs.fingerprint.com/reference/migrating-from-v3-to-v4)
+- Akamai proxy integration APIv4 [Guide](https://docs.fingerprint.com/docs/akamai-proxy-integration)
+
+### Minor Changes
+
+- Add nested integration path support ([a139683](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/a139683cdc52d9d192ebfedc7ba59f07f0eccc5c))
+- Add support for Warden API v4 with v3 backwards compatibility ([917fa9b](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/917fa9ba8cd20844650abfa275e01c800f3ba40e))
+
+### Patch Changes
+
+- Improved internal request routing logic for region. ([a91093b](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/a91093b6d68b1a1c19b5e1e17c2da0db86c48ffa))
+
 ## 1.1.0-rc.1
 
 ### Minor Changes
