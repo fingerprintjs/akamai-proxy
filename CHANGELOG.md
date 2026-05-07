@@ -1,6 +1,6 @@
 ## 1.1.0
 
-This version introduces Fingerprint JS Agent APIv4 support on Akamai proxy integration.
+This version introduces Fingerprint JavaScript Agent v4 support on Akamai proxy integration.
 
 **Docs:**
 
@@ -11,7 +11,7 @@ This version introduces Fingerprint JS Agent APIv4 support on Akamai proxy integ
 ### Minor Changes
 
 - Add nested integration path support ([a139683](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/a139683cdc52d9d192ebfedc7ba59f07f0eccc5c))
-- Add support for JavaScript Agent API v4 with v3 backwards compatibility ([917fa9b](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/917fa9ba8cd20844650abfa275e01c800f3ba40e))
+- Add support for JavaScript Agent v4 with v3 backwards compatibility ([917fa9b](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/917fa9ba8cd20844650abfa275e01c800f3ba40e))
 
 ### Patch Changes
 
@@ -31,7 +31,7 @@ This version introduces Fingerprint JS Agent APIv4 support on Akamai proxy integ
 
 ### Minor Changes
 
-- Add support for JavaScript Agent API v4 with v3 backwards compatibility ([917fa9b](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/917fa9ba8cd20844650abfa275e01c800f3ba40e))
+- Add support for JavaScript Agent v4 with v3 backwards compatibility ([917fa9b](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/917fa9ba8cd20844650abfa275e01c800f3ba40e))
 
 ## 1.0.1
 
