@@ -25,6 +25,11 @@ Fingerprint Akamai Proxy Integration is responsible for proxying identification 
 
 * **Manual updates occasionally required**: The underlying data contract in the identification logic can change to keep up with browser updates. Using the Akamai Proxy Integration might require occasional manual updates on your side. Ignoring these updates will lead to lower accuracy or service disruption.
 
+> [!WARNING]
+> **Tested property types**
+>
+> This integration has been tested with the [Dynamic Site Accelerator (DSA)][akamai-dsa] Akamai property type. It has not been formally tested with [Ion][akamai-ion] (Standard / Premier) or API Acceleration, although the rules and behaviors used by this integration are expected to work on those property types because Akamai's Property Manager exposes the same rule tree across them. If you are deploying on Ion or API Acceleration, we recommend validating the integration in a staging property before activating it in production. If you encounter issues, please reach out to our [support team][support].
+
 ## How to install with Terraform
 
 > [!NOTE]
@@ -132,9 +137,11 @@ If you have any questions, reach out to our [support team][support].
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
 
+[akamai-dsa]: https://techdocs.akamai.com/start/docs/setup-dynamic-site-accelerator
 [akamai-guide]: https://docs.fingerprint.com/docs/akamai-proxy-integration
 [akamai-guide-deploy-via-papi]: https://docs.fingerprint.com/docs/deploy-akamai-proxy-integration-via-papi
 [akamai-guide-step-3]: https://docs.fingerprint.com/docs/deploy-akamai-proxy-integration-via-terraform#step-3-add-variable-blocks-to-your-rules-template
+[akamai-ion]: https://techdocs.akamai.com/ion/docs/welcome-ion
 [akamai-ref-papi]: https://techdocs.akamai.com/property-mgr/reference/api
 [akamai-ref-patch-property-version-rules]: https://techdocs.akamai.com/property-mgr/reference/patch-property-version-rules
 [akamai-ref-rules-template]: https://techdocs.akamai.com/terraform/docs/pm-ds-rules-template
