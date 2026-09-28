@@ -61,5 +61,12 @@
     "description": "Points to region used for request routing",
     "hidden": false,
     "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_CACHE_STATUS",
+    "value": "",
+    "description": "Set to HIT when the agent is served from the edge cache",
+    "hidden": false,
+    "sensitive": false
   }
 ]

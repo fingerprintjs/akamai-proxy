@@ -352,6 +352,76 @@
           ],
           "criteriaMustSatisfy": "all",
           "comments": ""
+        },
+        {
+          "name": "Mark Agent Cache Hit",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_CACHE_STATUS",
+                "variableValue": "HIT"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "metadataStage",
+              "options": {
+                "matchOperator": "IS",
+                "value": "cache-hit"
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": "Runs only when the agent is served from the edge cache"
+        },
+        {
+          "name": "Agent Cache Hit Headers",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "ADD",
+                "standardAddHeaderName": "OTHER",
+                "customHeaderName": "Age",
+                "headerValue": "0"
+              }
+            },
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "DELETE",
+                "standardDeleteHeaderName": "OTHER",
+                "customHeaderName": "Cache-Tag"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "metadataStage",
+              "options": {
+                "matchOperator": "IS",
+                "value": "client-response"
+              }
+            },
+            {
+              "name": "matchVariable",
+              "options": {
+                "matchOperator": "IS",
+                "variableName": "PMUSER_FPJS_CACHE_STATUS",
+                "variableExpression": "HIT",
+                "matchWildcard": false,
+                "matchCaseSensitive": true
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": "Evaluated at the client response stage, after the cache lookup. Hits are served with Age 0 so browsers keep the agent for the full max-age, and the upstream Cache-Tag is not exposed"
         }
       ],
       "behaviors": [
