@@ -352,76 +352,6 @@
           ],
           "criteriaMustSatisfy": "all",
           "comments": ""
-        },
-        {
-          "name": "Mark Agent Cache Hit",
-          "children": [],
-          "behaviors": [
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "NONE",
-                "variableName": "PMUSER_FPJS_CACHE_STATUS",
-                "variableValue": "HIT"
-              }
-            }
-          ],
-          "criteria": [
-            {
-              "name": "metadataStage",
-              "options": {
-                "matchOperator": "IS",
-                "value": "cache-hit"
-              }
-            }
-          ],
-          "criteriaMustSatisfy": "all",
-          "comments": "Runs only when the agent is served from the edge cache"
-        },
-        {
-          "name": "Agent Cache Hit Headers",
-          "children": [],
-          "behaviors": [
-            {
-              "name": "modifyOutgoingResponseHeader",
-              "options": {
-                "action": "ADD",
-                "standardAddHeaderName": "OTHER",
-                "customHeaderName": "Age",
-                "headerValue": "0"
-              }
-            },
-            {
-              "name": "modifyOutgoingResponseHeader",
-              "options": {
-                "action": "DELETE",
-                "standardDeleteHeaderName": "OTHER",
-                "customHeaderName": "Cache-Tag"
-              }
-            }
-          ],
-          "criteria": [
-            {
-              "name": "metadataStage",
-              "options": {
-                "matchOperator": "IS",
-                "value": "client-response"
-              }
-            },
-            {
-              "name": "matchVariable",
-              "options": {
-                "matchOperator": "IS",
-                "variableName": "PMUSER_FPJS_CACHE_STATUS",
-                "variableExpression": "HIT",
-                "matchWildcard": false,
-                "matchCaseSensitive": true
-              }
-            }
-          ],
-          "criteriaMustSatisfy": "all",
-          "comments": "Evaluated at the client response stage, after the cache lookup. Hits are served with Age 0 so browsers keep the agent for the full max-age, and the upstream Cache-Tag is not exposed"
         }
       ],
       "behaviors": [
@@ -823,6 +753,265 @@
       "criteria": [],
       "criteriaMustSatisfy": "all",
       "comments": ""
+    },
+    {
+      "name": "Agent Cache Headers",
+      "children": [
+        {
+          "name": "New fill token",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "GENERATE",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_FILL_TOKEN",
+                "generator": "HEXRAND",
+                "numberOfBytes": 16
+              }
+            },
+            {
+              "name": "modifyIncomingRequestHeader",
+              "options": {
+                "action": "MODIFY",
+                "standardModifyHeaderName": "OTHER",
+                "customHeaderName": "X-Fpjs-Fill-Token",
+                "newHeaderValue": "{{user.PMUSER_FPJS_FILL_TOKEN}}",
+                "avoidDuplicateHeaders": true
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "metadataStage",
+              "options": {
+                "matchOperator": "IS",
+                "value": "client-request"
+              }
+            },
+            {
+              "name": "requestHeader",
+              "options": {
+                "headerName": "X-Fpjs-Fill-Token",
+                "matchOperator": "DOES_NOT_EXIST",
+                "matchWildcardName": false
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": "Every request gets a token that is sent upstream. Parent tiers reuse the one they receive"
+        },
+        {
+          "name": "Inherited fill token",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXTRACT",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_FILL_TOKEN",
+                "extractLocation": "CLIENT_REQUEST_HEADER",
+                "headerName": "X-Fpjs-Fill-Token"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "metadataStage",
+              "options": {
+                "matchOperator": "IS",
+                "value": "client-request"
+              }
+            },
+            {
+              "name": "requestHeader",
+              "options": {
+                "headerName": "X-Fpjs-Fill-Token",
+                "matchOperator": "EXISTS",
+                "matchWildcardName": false
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": "A parent cache tier received the token from the edge server"
+        },
+        {
+          "name": "Stamp origin responses",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "modifyIncomingResponseHeader",
+              "options": {
+                "action": "ADD",
+                "standardAddHeaderName": "OTHER",
+                "customHeaderName": "X-Fpjs-Fill-Token",
+                "headerValue": "{{user.PMUSER_FPJS_FILL_TOKEN}}"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "metadataStage",
+              "options": {
+                "matchOperator": "IS",
+                "value": "forward-response"
+              }
+            },
+            {
+              "name": "responseHeader",
+              "options": {
+                "headerName": "X-Fpjs-Fill-Token",
+                "matchOperator": "DOES_NOT_EXIST",
+                "matchWildcardName": false
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": "Responses that do not carry a token yet were just fetched from the origin and are stamped with the token of the request. It is stored with the cached object"
+        },
+        {
+          "name": "Read stored fill token",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXTRACT",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_STORED_FILL_TOKEN",
+                "extractLocation": "RESPONSE_HEADER",
+                "responseHeaderName": "X-Fpjs-Fill-Token"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "metadataStage",
+              "options": {
+                "matchOperator": "IS",
+                "value": "client-response"
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": "The token of the request that filled the cache. It matches this request's token only when the origin was asked for this very request"
+        },
+        {
+          "name": "Agent Cache Hit Headers",
+          "children": [
+            {
+              "name": "Not filled by this request",
+              "children": [],
+              "behaviors": [
+                {
+                  "name": "modifyOutgoingResponseHeader",
+                  "options": {
+                    "action": "ADD",
+                    "standardAddHeaderName": "OTHER",
+                    "customHeaderName": "Age",
+                    "headerValue": "0"
+                  }
+                },
+                {
+                  "name": "modifyOutgoingResponseHeader",
+                  "options": {
+                    "action": "DELETE",
+                    "standardDeleteHeaderName": "OTHER",
+                    "customHeaderName": "Cache-Tag"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS_NOT",
+                    "variableName": "PMUSER_FPJS_STORED_FILL_TOKEN",
+                    "variableExpression": "{{user.PMUSER_FPJS_FILL_TOKEN}}",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                },
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS_EMPTY",
+                    "variableName": "PMUSER_FPJS_STORED_FILL_TOKEN"
+                  }
+                },
+                {
+                  "name": "matchResponseCode",
+                  "options": {
+                    "matchOperator": "IS_ONE_OF",
+                    "values": [
+                      "304"
+                    ]
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "any",
+              "comments": "The stored token is missing (a 304 does not carry it) or differs from this request's token, so the response came from a cache. Responses a cache answers with 304 are always treated as hits"
+            }
+          ],
+          "behaviors": [],
+          "criteria": [
+            {
+              "name": "metadataStage",
+              "options": {
+                "matchOperator": "IS",
+                "value": "client-response"
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": "Cache hits are served with Age 0 so browsers keep the agent for the full max-age, and the upstream Cache-Tag is not exposed"
+        },
+        {
+          "name": "Strip fill token",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "DELETE",
+                "standardDeleteHeaderName": "OTHER",
+                "customHeaderName": "X-Fpjs-Fill-Token"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "metadataStage",
+              "options": {
+                "matchOperator": "IS",
+                "value": "client-response"
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": "The token is internal and is not exposed to clients"
+        }
+      ],
+      "behaviors": [],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchOperator": "MATCHES_ONE_OF",
+            "matchCaseSensitive": false,
+            "normalize": false,
+            "values": [
+              "/__integration_path__/__agent_path__",
+              "/__integration_path__/__agent_path__/*",
+              "/__integration_path__/web/v4/*"
+            ]
+          }
+        }
+      ],
+      "criteriaMustSatisfy": "all",
+      "comments": "APIv3 agent and APIv4 requests. Cache status can't be read from a variable on Akamai, and a cache hit answered by another cache tier doesn't reach the cache-hit stage, so hits are found by comparing tokens"
     }
   ],
   "behaviors": [

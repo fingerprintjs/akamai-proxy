@@ -63,9 +63,16 @@
     "sensitive": false
   },
   {
-    "name": "PMUSER_FPJS_CACHE_STATUS",
+    "name": "PMUSER_FPJS_FILL_TOKEN",
     "value": "",
-    "description": "Set to HIT when the agent is served from the edge cache",
+    "description": "Identifies the request that fills the edge cache, to tell cache hits from origin responses",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_STORED_FILL_TOKEN",
+    "value": "",
+    "description": "Token stored with the cached agent, set by the request that filled the cache",
     "hidden": false,
     "sensitive": false
   }
