@@ -59,12 +59,12 @@ This is a quick overview of the installation setup. For detailed step-by-step in
           }
           variables {
             name  = "fpjs_agent_path"
-            value = "deprecated-agent" # APIv3 only; unused on APIv4 — see note below
+            value = "deprecated-agent" # APIv3 only; unused on APIv4 — see note below. Any non-empty value makes the status page report APIv3 as configured
             type = "string"
           }
           variables {
             name  = "fpjs_result_path"
-            value = "deprecated-result" # APIv3 only; unused on APIv4 — see note below
+            value = "deprecated-result" # APIv3 only; unused on APIv4 — see note below. Any non-empty value makes the status page report APIv3 as configured
             type = "string"
           }
           variables {
@@ -76,7 +76,7 @@ This is a quick overview of the installation setup. For detailed step-by-step in
     ```
 
 > [!NOTE]
-> `fpjs_agent_path` and `fpjs_result_path` only affect APIv3 routing. Because the integration supports both APIv3 and APIv4, you must define them even if you plan to use APIv4 only — `terraform plan` fails with a missing-key error if either is absent. On APIv4 the values are arbitrary; you can leave them set to `"deprecated-agent"` and `"deprecated-result"` as shown above.
+> `fpjs_agent_path` and `fpjs_result_path` only affect APIv3 routing. Because the integration supports both APIv3 and APIv4, you must define them even if you plan to use APIv4 only — `terraform plan` fails with a missing-key error if either is absent. On APIv4 the values are arbitrary; you can leave them set to `"deprecated-agent"` and `"deprecated-result"` as shown above. The [status page](#status-page) only checks that these values are set, so with these placeholders it reports APIv3 as configured even if you do not use it.
 
 3. Go to this repository [latest releases][latest-releases] and download these two JSON files:
    * `terraform-fingerprint-property-rules.json`
@@ -145,6 +145,16 @@ You can clone this repository and build the property rules locally into a single
 For detailed instructions please see the [Deploy Akamai Integration using Property Manager API][akamai-guide-deploy-via-papi] documentation.
   
 If you have any questions, reach out to our [support team][support]. 
+
+## Status page
+
+Once the integration is deployed, open `https://yourwebsite.com/YOUR_INTEGRATION_PATH_HERE/status` to check it. The page shows:
+
+- The integration version.
+- Whether the integration is **Configured** or **Misconfigured**. It is configured if at least one of the APIv4 or APIv3 checks passes.
+- Whether `proxy_secret`, `integration_path`, `agent_path` and `result_path` are present or missing.
+
+APIv4 requires `proxy_secret` and `integration_path`; a failing APIv4 check is reported as an error. APIv3 additionally requires `agent_path` and `result_path`. If `proxy_secret` or `integration_path` is missing, APIv3 is reported as an error too; if only `agent_path` or `result_path` is missing, it is reported as a warning that can be ignored if you only use APIv4.
 
 ## License
 

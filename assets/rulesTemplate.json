@@ -615,7 +615,269 @@
     },
     {
       "name": "Status Path",
-      "children": [],
+      "children": [
+        {
+          "name": "Check configuration",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "STRING_LENGTH",
+                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableValue": "{{user.PMUSER_FPJS_PROXY_SECRET}}"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}{{user.PMUSER_FPJS_STATUS_SUMMARY}};"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "STRING_LENGTH",
+                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableValue": "__integration_path__"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}{{user.PMUSER_FPJS_STATUS_SUMMARY}};"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "STRING_LENGTH",
+                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableValue": "__agent_path__"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}{{user.PMUSER_FPJS_STATUS_SUMMARY}};"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "STRING_LENGTH",
+                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableValue": "__result_path__"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}{{user.PMUSER_FPJS_STATUS_SUMMARY}};"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "SUBSTITUTE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
+                "regex": "[1-9][0-9]*;",
+                "replacement": "Y",
+                "caseSensitive": true,
+                "globalSubstitution": true
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "SUBSTITUTE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
+                "regex": "0;",
+                "replacement": "N",
+                "caseSensitive": true,
+                "globalSubstitution": true
+              }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": "Sets one Y/N flag per checked value in PMUSER_FPJS_STATUS_ITEMS, from the length of each value."
+        },
+        {
+          "name": "Build summary",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "SUBSTITUTE",
+                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_SUMMARY}}",
+                "regex": "^YYYY$",
+                "replacement": "<p>Status: <strong>Configured</strong> &#9989;</p><ul><li>APIv4: Configured &#9989;</li><li>APIv3: Configured &#9989;</li></ul>",
+                "caseSensitive": true,
+                "globalSubstitution": false
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "SUBSTITUTE",
+                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_SUMMARY}}",
+                "regex": "^YY[YN]{2}$",
+                "replacement": "<p>Status: <strong>Configured</strong> &#9989;</p><ul><li>APIv4: Configured &#9989;</li><li>APIv3: Misconfigured &#9888;&#65039; - set the missing values listed below. If you are not using APIv3, this can be safely ignored.</li></ul>",
+                "caseSensitive": true,
+                "globalSubstitution": false
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "SUBSTITUTE",
+                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_SUMMARY}}",
+                "regex": "^[YN]{4}$",
+                "replacement": "<p>Status: <strong>Misconfigured</strong> &#10060;</p><ul><li>APIv4: Misconfigured &#10060; - set the missing required values listed below. Your integration is not working correctly.</li><li>APIv3: Misconfigured &#10060; - set the missing values listed below. Your integration is not working correctly.</li></ul>",
+                "caseSensitive": true,
+                "globalSubstitution": false
+              }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": "Picks the summary block from the flags: APIv4 needs the first two values, APIv3 needs all four."
+        },
+        {
+          "name": "Build checked values list",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "SUBSTITUTE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
+                "regex": "^([YN])([YN])([YN])([YN])$",
+                "replacement": "<li><code>proxy_secret</code> (required for APIv3 and APIv4) is @$1@</li><li><code>integration_path</code> (required for APIv3 and APIv4) is @$2@</li><li><code>agent_path</code> (required for APIv3 only) is @w$3@</li><li><code>result_path</code> (required for APIv3 only) is @w$4@</li>",
+                "caseSensitive": true,
+                "globalSubstitution": false
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "SUBSTITUTE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
+                "regex": "@w?Y@",
+                "replacement": "present &#9989;",
+                "caseSensitive": true,
+                "globalSubstitution": true
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "SUBSTITUTE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
+                "regex": "@N@",
+                "replacement": "missing &#10060;",
+                "caseSensitive": true,
+                "globalSubstitution": true
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "SUBSTITUTE",
+                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
+                "regex": "@wN@",
+                "replacement": "missing &#9888;&#65039;",
+                "caseSensitive": true,
+                "globalSubstitution": true
+              }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": "Renders the flags as a present/missing list."
+        },
+        {
+          "name": "Status response",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "constructResponse",
+              "options": {
+                "enabled": true,
+                "responseCode": 200,
+                "forceEviction": false,
+                "ignorePurge": false,
+                "body": "<html lang='en-US'>\n<head>\n<meta charset='utf-8'/>\n<title>Fingerprint Pro Akamai Integration</title>\n<link rel='icon' type='image/x-icon' href='https://fingerprint.com/img/favicon.ico'>\n<style nonce='{{user.PMUSER_FPJS_STATUS_STYLE_NONCE}}'>\n  h1, span, p {\n    display: block;\n    padding-top: 1em;\n    padding-bottom: 1em;\n    text-align: center;\n  }\n  ul {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n    text-align: center;\n  }\n  li {\n    padding: 0.25em 0;\n  }\n  code {\n    background: rgba(135, 131, 120, .15);\n    color: #EB5757;\n    border-radius: 4px;\n    font-size: 85%;\n    padding: 0.2em 0.4em;\n  }\n</style>\n</head>\n<body>\n<h1>Fingerprint Pro Akamai Integration</h1>\n<span>Your Akamai Integration is deployed</span>\n<span>\nIntegration version: {{user.PMUSER_FPJS_INTEGRATION_VERSION}}\n</span>\n{{user.PMUSER_FPJS_STATUS_SUMMARY}}\n<p>Checked configuration values (the values themselves are never displayed):</p>\n<ul>\n{{user.PMUSER_FPJS_STATUS_ITEMS}}\n</ul>\n<span>\nPlease reach out our support via <a href='mailto:support@fingerprint.com'>support@fingerprint.com</a> if you have any issues\n</span>\n</body>\n</html>"
+              }
+            },
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "ADD",
+                "standardAddHeaderName": "CONTENT_TYPE",
+                "headerValue": "text/html"
+              }
+            },
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "ADD",
+                "standardAddHeaderName": "OTHER",
+                "headerValue": "default-src 'none'; img-src https://fingerprint.com; style-src 'nonce-{{user.PMUSER_FPJS_STATUS_STYLE_NONCE}}'",
+                "customHeaderName": "Content-Security-Policy"
+              }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": "Constructs the status page. It has to be the last rule, as rules are evaluated in order."
+        }
+      ],
       "behaviors": [
         {
           "name": "setVariable",
@@ -625,33 +887,6 @@
             "variableName": "PMUSER_FPJS_STATUS_STYLE_NONCE",
             "generator": "HEXRAND",
             "numberOfBytes": 16
-          }
-        },
-        {
-          "name": "constructResponse",
-          "options": {
-            "enabled": true,
-            "responseCode": 200,
-            "forceEviction": false,
-            "ignorePurge": false,
-            "body": "<html lang='en-US'>\n<head>\n<meta charset='utf-8'/>\n<title>Fingerprint Pro Akamai Integration</title>\n<link rel='icon' type='image/x-icon' href='https://fingerprint.com/img/favicon.ico'>\n<style nonce='{{user.PMUSER_FPJS_STATUS_STYLE_NONCE}}'>\n  h1, span {\n    display: block;\n    padding-top: 1em;\n    padding-bottom: 1em;\n    text-align: center;\n  }\n</style>\n</head>\n<body>\n<h1>Fingerprint Pro Akamai Integration</h1>\n<span>Your Akamai Integration is deployed</span>\n<span>\nIntegration version: {{user.PMUSER_FPJS_INTEGRATION_VERSION}}\n</span>\n<span>\nPlease reach out our support via <a href='mailto:support@fingerprint.com'>support@fingerprint.com</a> if you have any issues\n</span>\n</body>\n</html>"
-          }
-        },
-        {
-          "name": "modifyOutgoingResponseHeader",
-          "options": {
-            "action": "ADD",
-            "standardAddHeaderName": "CONTENT_TYPE",
-            "headerValue": "text/html"
-          }
-        },
-        {
-          "name": "modifyOutgoingResponseHeader",
-          "options": {
-            "action": "ADD",
-            "standardAddHeaderName": "OTHER",
-            "headerValue": "default-src 'none'; img-src https://fingerprint.com; style-src 'nonce-{{user.PMUSER_FPJS_STATUS_STYLE_NONCE}}'",
-            "customHeaderName": "Content-Security-Policy"
           }
         }
       ],
