@@ -617,61 +617,453 @@
       "name": "Status Path",
       "children": [
         {
-          "name": "Check configuration",
-          "children": [],
+          "name": "Check proxy_secret",
+          "children": [
+            {
+              "name": "proxy_secret is set",
+              "children": [],
+              "behaviors": [
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "valueSource": "EXPRESSION",
+                    "transform": "NONE",
+                    "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                    "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}<li><code>proxy_secret</code> (required for APIv3 and APIv4) is present &#9989;</li>"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS_NOT",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableExpression": "0",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "all",
+              "comments": ""
+            },
+            {
+              "name": "proxy_secret is missing",
+              "children": [],
+              "behaviors": [
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "valueSource": "EXPRESSION",
+                    "transform": "NONE",
+                    "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                    "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}<li><code>proxy_secret</code> (required for APIv3 and APIv4) is missing &#10060;</li>"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableExpression": "0",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "all",
+              "comments": ""
+            }
+          ],
           "behaviors": [
             {
               "name": "setVariable",
               "options": {
                 "valueSource": "EXPRESSION",
                 "transform": "STRING_LENGTH",
-                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableName": "PMUSER_FPJS_STATUS_LENGTH",
                 "variableValue": "{{user.PMUSER_FPJS_PROXY_SECRET}}"
               }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": "Appends proxy_secret to the checked values list, depending on whether it is set."
+        },
+        {
+          "name": "Check integration_path",
+          "children": [
+            {
+              "name": "integration_path is set",
+              "children": [],
+              "behaviors": [
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "valueSource": "EXPRESSION",
+                    "transform": "NONE",
+                    "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                    "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}<li><code>integration_path</code> (required for APIv3 and APIv4) is present &#9989;</li>"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS_NOT",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableExpression": "0",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "all",
+              "comments": ""
             },
             {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "NONE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}{{user.PMUSER_FPJS_STATUS_SUMMARY}};"
-              }
-            },
+              "name": "integration_path is missing",
+              "children": [],
+              "behaviors": [
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "valueSource": "EXPRESSION",
+                    "transform": "NONE",
+                    "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                    "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}<li><code>integration_path</code> (required for APIv3 and APIv4) is missing &#10060;</li>"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableExpression": "0",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "all",
+              "comments": ""
+            }
+          ],
+          "behaviors": [
             {
               "name": "setVariable",
               "options": {
                 "valueSource": "EXPRESSION",
                 "transform": "STRING_LENGTH",
-                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableName": "PMUSER_FPJS_STATUS_LENGTH",
                 "variableValue": "__integration_path__"
               }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": "Appends integration_path to the checked values list, depending on whether it is set."
+        },
+        {
+          "name": "Check agent_path",
+          "children": [
+            {
+              "name": "agent_path is set",
+              "children": [],
+              "behaviors": [
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "valueSource": "EXPRESSION",
+                    "transform": "NONE",
+                    "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                    "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}<li><code>agent_path</code> (required for APIv3 only) is present &#9989;</li>"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS_NOT",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableExpression": "0",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "all",
+              "comments": ""
             },
             {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "NONE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}{{user.PMUSER_FPJS_STATUS_SUMMARY}};"
-              }
-            },
+              "name": "agent_path is missing",
+              "children": [],
+              "behaviors": [
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "valueSource": "EXPRESSION",
+                    "transform": "NONE",
+                    "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                    "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}<li><code>agent_path</code> (required for APIv3 only) is missing &#9888;&#65039;</li>"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableExpression": "0",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "all",
+              "comments": ""
+            }
+          ],
+          "behaviors": [
             {
               "name": "setVariable",
               "options": {
                 "valueSource": "EXPRESSION",
                 "transform": "STRING_LENGTH",
-                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableName": "PMUSER_FPJS_STATUS_LENGTH",
                 "variableValue": "__agent_path__"
               }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": "Appends agent_path to the checked values list, depending on whether it is set."
+        },
+        {
+          "name": "Check result_path",
+          "children": [
+            {
+              "name": "result_path is set",
+              "children": [],
+              "behaviors": [
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "valueSource": "EXPRESSION",
+                    "transform": "NONE",
+                    "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                    "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}<li><code>result_path</code> (required for APIv3 only) is present &#9989;</li>"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS_NOT",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableExpression": "0",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "all",
+              "comments": ""
             },
+            {
+              "name": "result_path is missing",
+              "children": [],
+              "behaviors": [
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "valueSource": "EXPRESSION",
+                    "transform": "NONE",
+                    "variableName": "PMUSER_FPJS_STATUS_ITEMS",
+                    "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}<li><code>result_path</code> (required for APIv3 only) is missing &#9888;&#65039;</li>"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableExpression": "0",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "all",
+              "comments": ""
+            }
+          ],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "STRING_LENGTH",
+                "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                "variableValue": "__result_path__"
+              }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": "Appends result_path to the checked values list, depending on whether it is set."
+        },
+        {
+          "name": "Check summary",
+          "children": [
+            {
+              "name": "proxy_secret is set",
+              "children": [
+                {
+                  "name": "integration_path is set (APIv4 is configured)",
+                  "children": [
+                    {
+                      "name": "agent_path is set",
+                      "children": [
+                        {
+                          "name": "result_path is set (APIv3 is configured)",
+                          "children": [],
+                          "behaviors": [
+                            {
+                              "name": "setVariable",
+                              "options": {
+                                "valueSource": "EXPRESSION",
+                                "transform": "NONE",
+                                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                                "variableValue": "<p>Status: <strong>Configured</strong> &#9989;</p><ul><li>APIv4: Configured &#9989;</li><li>APIv3: Configured &#9989;</li></ul>"
+                              }
+                            }
+                          ],
+                          "criteria": [
+                            {
+                              "name": "matchVariable",
+                              "options": {
+                                "matchOperator": "IS_NOT",
+                                "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                                "variableExpression": "0",
+                                "matchWildcard": false,
+                                "matchCaseSensitive": true
+                              }
+                            }
+                          ],
+                          "criteriaMustSatisfy": "all",
+                          "comments": ""
+                        }
+                      ],
+                      "behaviors": [
+                        {
+                          "name": "setVariable",
+                          "options": {
+                            "valueSource": "EXPRESSION",
+                            "transform": "STRING_LENGTH",
+                            "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                            "variableValue": "__result_path__"
+                          }
+                        }
+                      ],
+                      "criteria": [
+                        {
+                          "name": "matchVariable",
+                          "options": {
+                            "matchOperator": "IS_NOT",
+                            "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                            "variableExpression": "0",
+                            "matchWildcard": false,
+                            "matchCaseSensitive": true
+                          }
+                        }
+                      ],
+                      "criteriaMustSatisfy": "all",
+                      "comments": ""
+                    }
+                  ],
+                  "behaviors": [
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "valueSource": "EXPRESSION",
+                        "transform": "NONE",
+                        "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                        "variableValue": "<p>Status: <strong>Configured</strong> &#9989;</p><ul><li>APIv4: Configured &#9989;</li><li>APIv3: Misconfigured &#9888;&#65039; - set the missing values listed below. If you are not using APIv3, this can be safely ignored.</li></ul>"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "valueSource": "EXPRESSION",
+                        "transform": "STRING_LENGTH",
+                        "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                        "variableValue": "__agent_path__"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "matchVariable",
+                      "options": {
+                        "matchOperator": "IS_NOT",
+                        "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                        "variableExpression": "0",
+                        "matchWildcard": false,
+                        "matchCaseSensitive": true
+                      }
+                    }
+                  ],
+                  "criteriaMustSatisfy": "all",
+                  "comments": ""
+                }
+              ],
+              "behaviors": [
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "valueSource": "EXPRESSION",
+                    "transform": "STRING_LENGTH",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableValue": "__integration_path__"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "matchVariable",
+                  "options": {
+                    "matchOperator": "IS_NOT",
+                    "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                    "variableExpression": "0",
+                    "matchWildcard": false,
+                    "matchCaseSensitive": true
+                  }
+                }
+              ],
+              "criteriaMustSatisfy": "all",
+              "comments": ""
+            }
+          ],
+          "behaviors": [
             {
               "name": "setVariable",
               "options": {
                 "valueSource": "EXPRESSION",
                 "transform": "NONE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}{{user.PMUSER_FPJS_STATUS_SUMMARY}};"
+                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
+                "variableValue": "<p>Status: <strong>Misconfigured</strong> &#10060;</p><ul><li>APIv4: Misconfigured &#10060; - set the missing required values listed below. Your integration is not working correctly.</li><li>APIv3: Misconfigured &#10060; - set the missing values listed below. Your integration is not working correctly.</li></ul>"
               }
             },
             {
@@ -679,167 +1071,14 @@
               "options": {
                 "valueSource": "EXPRESSION",
                 "transform": "STRING_LENGTH",
-                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
-                "variableValue": "__result_path__"
-              }
-            },
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "NONE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}{{user.PMUSER_FPJS_STATUS_SUMMARY}};"
-              }
-            },
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
-                "regex": "[1-9][0-9]*;",
-                "replacement": "Y",
-                "caseSensitive": true,
-                "globalSubstitution": true
-              }
-            },
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
-                "regex": "0;",
-                "replacement": "N",
-                "caseSensitive": true,
-                "globalSubstitution": true
+                "variableName": "PMUSER_FPJS_STATUS_LENGTH",
+                "variableValue": "{{user.PMUSER_FPJS_PROXY_SECRET}}"
               }
             }
           ],
           "criteria": [],
           "criteriaMustSatisfy": "all",
-          "comments": "Sets one Y/N flag per checked value in PMUSER_FPJS_STATUS_ITEMS, from the length of each value."
-        },
-        {
-          "name": "Build summary",
-          "children": [],
-          "behaviors": [
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "NONE",
-                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}"
-              }
-            },
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_SUMMARY}}",
-                "regex": "^YYYY$",
-                "replacement": "<p>Status: <strong>Configured</strong> &#9989;</p><ul><li>APIv4: Configured &#9989;</li><li>APIv3: Configured &#9989;</li></ul>",
-                "caseSensitive": true,
-                "globalSubstitution": false
-              }
-            },
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_SUMMARY}}",
-                "regex": "^YY[YN]{2}$",
-                "replacement": "<p>Status: <strong>Configured</strong> &#9989;</p><ul><li>APIv4: Configured &#9989;</li><li>APIv3: Misconfigured &#9888;&#65039; - set the missing values listed below. If you are not using APIv3, this can be safely ignored.</li></ul>",
-                "caseSensitive": true,
-                "globalSubstitution": false
-              }
-            },
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_STATUS_SUMMARY",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_SUMMARY}}",
-                "regex": "^[YN]{4}$",
-                "replacement": "<p>Status: <strong>Misconfigured</strong> &#10060;</p><ul><li>APIv4: Misconfigured &#10060; - set the missing required values listed below. Your integration is not working correctly.</li><li>APIv3: Misconfigured &#10060; - set the missing values listed below. Your integration is not working correctly.</li></ul>",
-                "caseSensitive": true,
-                "globalSubstitution": false
-              }
-            }
-          ],
-          "criteria": [],
-          "criteriaMustSatisfy": "all",
-          "comments": "Picks the summary block from the flags: APIv4 needs the first two values, APIv3 needs all four."
-        },
-        {
-          "name": "Build checked values list",
-          "children": [],
-          "behaviors": [
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
-                "regex": "^([YN])([YN])([YN])([YN])$",
-                "replacement": "<li><code>proxy_secret</code> (required for APIv3 and APIv4) is @$1@</li><li><code>integration_path</code> (required for APIv3 and APIv4) is @$2@</li><li><code>agent_path</code> (required for APIv3 only) is @w$3@</li><li><code>result_path</code> (required for APIv3 only) is @w$4@</li>",
-                "caseSensitive": true,
-                "globalSubstitution": false
-              }
-            },
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
-                "regex": "@w?Y@",
-                "replacement": "present &#9989;",
-                "caseSensitive": true,
-                "globalSubstitution": true
-              }
-            },
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
-                "regex": "@N@",
-                "replacement": "missing &#10060;",
-                "caseSensitive": true,
-                "globalSubstitution": true
-              }
-            },
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXPRESSION",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_STATUS_ITEMS",
-                "variableValue": "{{user.PMUSER_FPJS_STATUS_ITEMS}}",
-                "regex": "@wN@",
-                "replacement": "missing &#9888;&#65039;",
-                "caseSensitive": true,
-                "globalSubstitution": true
-              }
-            }
-          ],
-          "criteria": [],
-          "criteriaMustSatisfy": "all",
-          "comments": "Renders the flags as a present/missing list."
+          "comments": "APIv4 needs proxy_secret and integration_path, APIv3 also needs agent_path and result_path. Each nested rule only applies if the value checked by its parent is set."
         },
         {
           "name": "Status response",

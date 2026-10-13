@@ -75,5 +75,12 @@
     "description": "Used to render the configuration summary on the status page",
     "hidden": false,
     "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_STATUS_LENGTH",
+    "value": "",
+    "description": "Used to check whether a configuration value is set on the status page",
+    "hidden": false,
+    "sensitive": false
   }
 ]

@@ -48,6 +48,5 @@ test.describe('Status Page', () => {
 
     const content = await page.content()
     test.expect(content).not.toContain('{{')
-    test.expect(content).not.toMatch(/@w?[YN]@/)
   })
 })
