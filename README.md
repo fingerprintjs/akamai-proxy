@@ -152,9 +152,9 @@ Once the integration is deployed, open `https://yourwebsite.com/YOUR_INTEGRATION
 
 - The integration version.
 - Whether the integration is **Configured** or **Misconfigured**. It is configured if at least one of the APIv4 or APIv3 checks passes.
-- Whether `proxy_secret`, `integration_path`, `agent_path` and `result_path` are present or missing.
+- Whether `proxy_secret` and `result_path` are present or missing. Only presence is reported, the values are never displayed.
 
-APIv4 requires `proxy_secret` and `integration_path`; a failing APIv4 check is reported as an error. APIv3 additionally requires `agent_path` and `result_path`. If `proxy_secret` or `integration_path` is missing, APIv3 is reported as an error too; if only `agent_path` or `result_path` is missing, it is reported as a warning that can be ignored if you only use APIv4.
+APIv4 requires `proxy_secret`; if it is missing, APIv4 and APIv3 are both reported as an error. APIv3 additionally requires `result_path`; if only that is missing, APIv3 is reported as a warning that can be ignored if you only use APIv4. `integration_path` and `agent_path` are not reported, as Akamai does not let you deploy the rules without them.
 
 ## License
 

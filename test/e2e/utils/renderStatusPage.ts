@@ -1,10 +1,8 @@
 import generatePatchBody from '../../../generators/generatePatchBody.ts'
 
 interface Config {
-  integrationPath: string
-  agentPath: string
-  resultPath: string
   proxySecret: string
+  resultPath: string
 }
 
 interface Behavior {
@@ -24,17 +22,23 @@ interface Rule {
   children: Rule[]
 }
 
+// Akamai refuses to activate rules with an empty integration path or agent path, so they are not part of the config:
+// this helper must not be able to render a state that can't exist on a real property.
+const integrationPath = 'integration'
+const agentPath = 'agent'
+
 /**
  * Renders the status page the way the Akamai edge does, without deploying anything.
  *
  * It builds the property rules for the given configuration and evaluates the root variables and the `Status Path`
- * rule tree in order. It only understands what the status page uses, and throws on anything else, so a change to the
- * rules that needs more of Akamai's semantics fails loudly instead of being silently skipped.
+ * rule tree in order. This is a small model of Akamai's rule engine, limited to what the status page uses: it throws
+ * on anything else, so a rule change that needs more of Akamai's semantics fails loudly instead of being skipped.
+ * Its results were checked against pages served by a real Akamai property for the same configurations.
  */
-export function renderStatusPage(config: Config): string {
-  const patchBody = JSON.parse(generatePatchBody({ ...config, ingressUrl: 'api.fpjs.io' })) as {
-    value: Rule | { name: string; value: string }
-  }[]
+export function renderStatusPage({ proxySecret, resultPath }: Config): string {
+  const patchBody = JSON.parse(
+    generatePatchBody({ integrationPath, agentPath, resultPath, proxySecret, ingressUrl: 'api.fpjs.io' })
+  ) as { value: Rule | { name: string; value: string } }[]
 
   const variables = new Map<string, string>()
   for (const { value } of patchBody.slice(1)) {
@@ -54,33 +58,27 @@ export function renderStatusPage(config: Config): string {
   let body: string | undefined
 
   const matches = ({ name, options }: Criteria) => {
-    if (name !== 'matchVariable' || !['IS', 'IS_NOT'].includes(options.matchOperator)) {
+    if (name !== 'matchVariable' || !['IS_EMPTY', 'IS_NOT_EMPTY'].includes(options.matchOperator)) {
       throw new Error(`Unsupported criteria: ${name} ${options.matchOperator}`)
     }
-    const equal = (variables.get(options.variableName) ?? '') === expand(options.variableExpression)
-    return options.matchOperator === 'IS' ? equal : !equal
+    const empty = (variables.get(options.variableName) ?? '') === ''
+    return options.matchOperator === 'IS_EMPTY' ? empty : !empty
   }
 
   const run = ({ name, options }: Behavior) => {
     switch (name) {
-      case 'setVariable': {
-        if (options.valueSource === 'GENERATE') {
-          variables.set(options.variableName, '0'.repeat(32))
-          break
-        }
-        if (options.valueSource !== 'EXPRESSION') {
-          throw new Error(`Unsupported variable source: ${options.valueSource}`)
-        }
-        const value = expand(options.variableValue)
-        if (options.transform === 'STRING_LENGTH') {
-          variables.set(options.variableName, String(value.length))
-        } else if (options.transform === 'NONE') {
-          variables.set(options.variableName, value)
-        } else {
+      case 'setVariable':
+        if (options.transform !== 'NONE') {
           throw new Error(`Unsupported transform: ${options.transform}`)
         }
+        if (options.valueSource === 'GENERATE') {
+          variables.set(options.variableName, '0'.repeat(32))
+        } else if (options.valueSource === 'EXPRESSION') {
+          variables.set(options.variableName, expand(options.variableValue))
+        } else {
+          throw new Error(`Unsupported variable source: ${options.valueSource}`)
+        }
         break
-      }
       case 'constructResponse':
         body = expand(options.body)
         break

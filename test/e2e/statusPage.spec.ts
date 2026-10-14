@@ -42,7 +42,7 @@ test.describe('Status Page', () => {
       waitUntil: 'networkidle',
     })
 
-    for (const name of ['proxy_secret', 'integration_path', 'agent_path', 'result_path']) {
+    for (const name of ['proxy_secret', 'result_path']) {
       await test.expect(page.getByRole('listitem').filter({ hasText: `${name} (` })).toContainText('is present ✅')
     }
 
