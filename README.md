@@ -76,7 +76,7 @@ This is a quick overview of the installation setup. For detailed step-by-step in
     ```
 
 > [!NOTE]
-> `fpjs_agent_path` and `fpjs_result_path` only affect APIv3 routing. Because the integration supports both APIv3 and APIv4, you must define them even if you plan to use APIv4 only — `terraform plan` fails with a missing-key error if either is absent. On APIv4 the values are arbitrary; you can leave them set to `"deprecated-agent"` and `"deprecated-result"` as shown above.
+> `fpjs_agent_path` and `fpjs_result_path` only affect APIv3 routing. Because the integration supports both APIv3 and APIv4, you must define them even if you plan to use APIv4 only — `terraform plan` fails with a missing-key error if either is absent. On APIv4 the values are arbitrary; you can leave them set to `"deprecated-agent"` and `"deprecated-result"` as shown above. The [status page](#status-page) only checks that `fpjs_result_path` is set, so with these placeholders it reports APIv3 as configured even if you do not use it.
 
 3. Go to this repository [latest releases][latest-releases] and download these two JSON files:
    * `terraform-fingerprint-property-rules.json`
@@ -145,6 +145,16 @@ You can clone this repository and build the property rules locally into a single
 For detailed instructions please see the [Deploy Akamai Integration using Property Manager API][akamai-guide-deploy-via-papi] documentation.
   
 If you have any questions, reach out to our [support team][support]. 
+
+## Status page
+
+Once the integration is deployed, open `https://yourwebsite.com/YOUR_INTEGRATION_PATH_HERE/status` to check it. The page shows:
+
+- The integration version.
+- Whether the integration is **Configured** or **Misconfigured**. It is configured if at least one of the APIv4 or APIv3 checks passes.
+- Whether `proxy_secret` and `result_path` are present or missing. Only presence is reported, the values are never displayed.
+
+APIv4 requires `proxy_secret`; if it is missing, APIv4 and APIv3 are both reported as an error. APIv3 additionally requires `result_path`; if only that is missing, APIv3 is reported as a warning that can be ignored if you only use APIv4. `integration_path` and `agent_path` are not reported, as Akamai does not let you deploy the rules without them.
 
 ## License
 
