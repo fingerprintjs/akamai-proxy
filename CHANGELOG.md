@@ -1,3 +1,9 @@
+## 1.2.0
+
+### Minor Changes
+
+- Show the configuration state of APIv4 and APIv3 on the status page ([92c8466](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/92c84662bd0778913bc8b25163897ea27e4bb402))
+
 ## 1.1.0
 
 This version introduces Fingerprint JavaScript Agent v4 support on Akamai proxy integration.
