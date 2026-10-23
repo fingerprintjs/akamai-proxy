@@ -75,5 +75,19 @@
     "description": "Token stored with the cached agent, set by the request that filled the cache",
     "hidden": false,
     "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_STATUS_ITEMS",
+    "value": "",
+    "description": "Used to render the configuration check on the status page",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_STATUS_SUMMARY",
+    "value": "",
+    "description": "Used to render the configuration summary on the status page",
+    "hidden": false,
+    "sensitive": false
   }
 ]
