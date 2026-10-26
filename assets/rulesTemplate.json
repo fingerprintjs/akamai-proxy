@@ -903,6 +903,47 @@
       "criteria": [],
       "criteriaMustSatisfy": "all",
       "comments": ""
+    },
+    {
+      "name": "Agent Cache Headers",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "modifyOutgoingResponseHeader",
+          "options": {
+            "action": "MODIFY",
+            "standardModifyHeaderName": "OTHER",
+            "customHeaderName": "Age",
+            "newHeaderValue": "0",
+            "avoidDuplicateHeaders": true
+          }
+        },
+        {
+          "name": "modifyOutgoingResponseHeader",
+          "options": {
+            "action": "DELETE",
+            "standardDeleteHeaderName": "OTHER",
+            "customHeaderName": "Cache-Tag"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchOperator": "MATCHES_ONE_OF",
+            "matchCaseSensitive": false,
+            "normalize": false,
+            "values": [
+              "/__integration_path__/__agent_path__",
+              "/__integration_path__/__agent_path__/*",
+              "/__integration_path__/web/v4/*"
+            ]
+          }
+        }
+      ],
+      "criteriaMustSatisfy": "all",
+      "comments": "APIv3 agent and APIv4 requests. Akamai drops the upstream Age and replays the stored headers on cache hits, so every response is served with Age 0 (set, or replaced when present) and without the upstream Cache-Tag. Cache-Control is left as the upstream sent it"
     }
   ],
   "behaviors": [
