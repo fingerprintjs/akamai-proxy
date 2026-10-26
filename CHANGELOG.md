@@ -1,3 +1,13 @@
+## 1.2.0
+
+### Minor Changes
+
+- Show the configuration state of APIv4 and APIv3 on the status page ([92c8466](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/92c84662bd0778913bc8b25163897ea27e4bb402))
+
+### Patch Changes
+
+- Serve agent responses with `Age: 0` and without the upstream `Cache-Tag`, on APIv3 and APIv4, so cache hits answered by any Akamai cache tier no longer expose the upstream purge tag ([1becd30](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/1becd30e9e90daa8f548c8ebda5c3483f4c5e3f6))
+
 ## 1.1.0
 
 This version introduces Fingerprint JavaScript Agent v4 support on Akamai proxy integration.
