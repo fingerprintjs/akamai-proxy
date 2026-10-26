@@ -30,7 +30,7 @@ async function main() {
   console.info(`Running mock e2e tests for`, host)
 
   execSync(
-    `npm exec -y "git+https://github.com/fingerprintjs/dx-team-mock-for-proxy-integrations-e2e-tests.git" -- --api-url="https://${apiUrl}" --cdn-proxy-url="${agentUrl.toString()}" --ingress-proxy-url="${resultUrl.toString()}" --traffic-name=fingerprint-pro-akamai --agent-cache-mode=cached --integration-version=${
+    `npm exec -y "git+https://github.com/fingerprintjs/dx-team-mock-for-proxy-integrations-e2e-tests.git" -- --api-url="https://${apiUrl}" --cdn-proxy-url="${agentUrl.toString()}" --ingress-proxy-url="${resultUrl.toString()}" --traffic-name=fingerprint-pro-akamai --agent-cache-mode=cached --enable-new-tests=true --integration-version=${
       pkg.version
     }`,
     {
