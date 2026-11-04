@@ -976,6 +976,12 @@
       "options": {
         "enabled": true
       }
+    },
+    {
+      "name": "allowPut",
+      "options": {
+        "enabled": true
+      }
     }
   ],
   "criteria": [
