@@ -1,3 +1,9 @@
+## 1.2.1
+
+### Patch Changes
+
+- Allow `PUT` requests on the integration path, so APIv4 `PUT` requests are proxied instead of being rejected by Akamai with `501 Unsupported Request` ([0741d83](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/0741d83c6016d5ad6b7a4007cbead0a49b801eb5))
+
 ## 1.2.0
 
 ### Minor Changes
